@@ -3,6 +3,12 @@ ORG 0x7C00
 
 JMP _start
 
+new_line:
+  MOV AH, 0x0002
+  MOV BH, 0x0000
+  INC DH
+  INT 0x0010
+
 title_end:
   RET
 
@@ -30,12 +36,7 @@ _start:
 
   MOV BX, program_title
   CALL title
-  MOV AH, 0x0002
-  MOV BH, 0x0000
-  INC DH
-  INT 0x0010
-
-  JMP $
+  CALL new_line
 
 program_title DB "Bootloader", 0
 

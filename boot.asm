@@ -1,6 +1,9 @@
-org 0x7c00
+ORG 0x7C00
 
-jmp $
+JMP _start
 
-times 510-($-$$) db 0
-dw 0xaa55
+_start:
+  JMP $
+
+TIMES 510-($-$$) DB 0
+DW 0xAA55

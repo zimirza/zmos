@@ -9,18 +9,18 @@ new_line:
   INC DH
   INT 0x0010
 
-title_end:
-  RET
-
 title:
-  MOV AH, 0x000E
-  MOV AL, [BX]
-  CMP AL, 0
-  JE title_end
+  MOV AH, 0x0013
+  MOV AL, 0x0000
+  MOV BH, 0x0000
+  MOV BL, 0x0007
+  MOV CX, program_title_length
+  MOV DH, 0x0000
+  MOV DL, 0x0000
+  MOV BP, program_title
   INT 0x0010
 
-  INC BX
-  JMP title
+  CALL new_line
 
 _start:
   MOV AH, 0x0006
@@ -36,9 +36,11 @@ _start:
 
   MOV BX, program_title
   CALL title
-  CALL new_line
+
+  JMP $
 
 program_title DB "Bootloader", 0
+program_title_length equ $-program_title-1
 
 TIMES 510-($-$$) DB 0
 DW 0xAA55

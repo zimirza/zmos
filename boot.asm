@@ -14,10 +14,10 @@ title:
   MOV AL, 0x0000
   MOV BH, 0x0000
   MOV BL, 0x0007
-  MOV CX, program_title_length
+  MOV CX, PROGRAM_TITLE_LENGTH
   MOV DH, 0x0000
   MOV DL, 0x0000
-  MOV BP, program_title
+  MOV BP, PROGRAM_TITLE
   INT 0x0010
 
   CALL new_line
@@ -34,13 +34,13 @@ _start:
   MOV DL, 0x0000
   INT 0x0010
 
-  MOV BX, program_title
+  MOV BX, PROGRAM_TITLE
   CALL title
 
   JMP $
 
-program_title DB "Bootloader", 0
-program_title_length equ $-program_title-1
+PROGRAM_TITLE DB "ZMOS Bootloader", 0
+PROGRAM_TITLE_LENGTH equ $-PROGRAM_TITLE-1
 
 TIMES 510-($-$$) DB 0
 DW 0xAA55

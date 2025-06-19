@@ -3,24 +3,27 @@ ORG 0x7C00
 
 JMP _start
 
-new_line:
+print_new_line:
   MOV AH, 0x0002
   MOV BH, 0x0000
   INC DH
   INT 0x0010
 
-title:
-  MOV AH, 0x0013
+print:
+  MOV AH, 0x000E
   MOV AL, 0x0000
-  MOV BH, 0x0000
   MOV BL, 0x0007
-  MOV CX, PROGRAM_TITLE_LENGTH
-  MOV DH, 0x0000
-  MOV DL, 0x0000
-  MOV BP, PROGRAM_TITLE
-  INT 0x0010
 
-  CALL new_line
+print_loop:
+  MOV AL, [SI]
+  CMP AL, 0x0000
+  JZ print_done
+  INC SI
+  INT 0x0010
+  JMP print_loop
+
+print_done:
+  RET
 
 _start:
   MOV AH, 0x0006
@@ -34,13 +37,13 @@ _start:
   MOV DL, 0x0000
   INT 0x0010
 
-  MOV BX, PROGRAM_TITLE
-  CALL title
+  MOV SI, PROGRAM_TITLE
+  CALL print
+  CALL print_new_line
 
   JMP $
 
 PROGRAM_TITLE DB "ZMOS Bootloader", 0
-PROGRAM_TITLE_LENGTH equ $-PROGRAM_TITLE-1
 
 TIMES 510-($-$$) DB 0
 DW 0xAA55
